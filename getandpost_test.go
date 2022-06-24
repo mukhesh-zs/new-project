@@ -48,7 +48,9 @@ func TestGetAll(t *testing.T) {
 		url        string
 		expetedout []book
 	}{
-		{"getting data of all books", "/book", []book{{"2states", "chetan", "arihant", "23-10-2020"}, {"3states", "mukhesh", "GKpublications", "03-7-2000"}}},
+		{"getting data of all books", "/book", []book{{"2states", author{"chetan", "bhagat", "30-12-1980", "neon"}, "arihant", "23-10-2020"},
+			{"3states", author{"mukhesh", "chandra", "24-10-2000", "rolex"}, "GKpublications", "03-7-2000"}},
+		},
 	}
 	for _, tc := range testcases {
 		req := httptest.NewRequest("GET", "/book", nil)
@@ -89,4 +91,22 @@ func TestPostBook(t *testing.T) {
 		assert.Equal(t, tc.expstatuscode, res.StatusCode)
 	}
 
+}
+
+func TestPostAuthor(t *testing.T) {
+	testcases := []struct {
+		desc          string
+		input         author
+		expstatuscode int
+	}{
+		{"valid author", author{"kishore", "kumar", "16-06-1906", "rolex"}, http.StatusCreated},
+	}
+	for _, tc := range testcases {
+		data, _ := json.Marshal(tc.input)
+		req := httptest.NewRequest("POST", "/book/author", bytes.NewBuffer(data))
+		w := httptest.NewRecorder()
+		PostAutor(w, req)
+		res := w.Result()
+		assert.Equal(t, tc.expstatuscode, res.StatusCode)
+	}
 }

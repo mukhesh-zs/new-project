@@ -28,6 +28,9 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 func PostBook(w http.ResponseWriter, r *http.Request) {
 
 }
+func PostAutor(w http.ResponseWriter, r *http.Request) {
+
+}
 func main() {
 	http.HandleFunc("/book/1", GetOne)
 	log.Fatal(http.ListenAndServe(":8000", nil))
